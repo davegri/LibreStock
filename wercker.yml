@@ -1,9 +1,11 @@
-box: nodesource/trusty
+box: nodesource/node
+services:
+  - id: mongo
 dev:
   steps:
     - npm-install
     - internal/watch:
-        code: node src/server.js
+        code: node 'src/server.js'
         reload: true
 
 # Build definition
@@ -21,3 +23,19 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+deploy:
+  steps:
+    - pip-install
+    - internal/docker-push:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+        repository: davegri/librecrawler
+        cmd: python crawl.py
+        registry: https://registry.hub.docker.com
+    - add-ssh-key:
+        keyname: DIGITAL_OCEAN
+    - add-to-known_hosts:
+        hostname: $LIBRESTOCK_SERVER_IP
+    - script:
+        name: download image
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker pull davegri/librestock

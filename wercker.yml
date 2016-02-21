@@ -37,13 +37,13 @@ deploy:
         code: ssh root@$LIBRESTOCK_SERVER_IP docker pull davegri/librestock:latest
     - script:
         name: stop running container
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker stop librestock
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker stop librestock || echo 'failed to stop running container'
     - script:
         name: remove stopped container
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker rm librestock
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker rm librestock || echo 'failed to remove stopped container'
     - script:
         name: remove image behind stopped container
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker rmi davegri/librestock:current
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker rmi davegri/librestock:current || echo 'failed to remove image behind stopped container'
     - script:
         name: tag newly pulled image
         code: ssh root@$LIBRESTOCK_SERVER_IP docker tag davegri/librestock:latest davegri/librestock:current

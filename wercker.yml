@@ -19,12 +19,15 @@ build:
 deploy:
   steps:
     - npm-install
+    - script:
+      name: install supervisor
+      code: npm install -g supervisor
     - internal/docker-push:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
         repository: davegri/librestock
         ports: "8080"
-        cmd: npm install -g supervisor && npm start
+        cmd: npm start
     - add-ssh-key:
         keyname: DIGITAL_OCEAN
     - add-to-known_hosts:

@@ -25,7 +25,7 @@ deploy:
         password: $DOCKER_PASSWORD
         repository: davegri/librestock
         ports: "8080"
-        cmd: cd /pipeline/output && npm install -g supervisor && npm start
+        cmd: "cd /pipeline/output && npm install -g supervisor && npm start"
     - add-ssh-key:
         keyname: DIGITAL_OCEAN
     - add-to-known_hosts:

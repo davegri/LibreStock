@@ -1,4 +1,4 @@
-box: nodesource/node
+box: node
 services:
   - id: mongo
 dev:
@@ -19,23 +19,36 @@ build:
     # A custom script step, name value is used in the UI
     # and the code value contains the command that get executed
     - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
+        name: ls
+        code: ls
 deploy:
   steps:
-    - pip-install
+    - npm-install
     - internal/docker-push:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
-        repository: davegri/librecrawler
-        cmd: python crawl.py
-        registry: https://registry.hub.docker.com
+        repository: davegri/librestock
+        ports: "8080"
+        cmd: "npm start"
     - add-ssh-key:
         keyname: DIGITAL_OCEAN
     - add-to-known_hosts:
         hostname: $LIBRESTOCK_SERVER_IP
     - script:
-        name: download image
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker pull davegri/librestock
+        name: pull latest image
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker pull davegri/librestock:latest
+    - script:
+        name: stop running container
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker stop librestock
+    - script:
+        name: remove stopped container
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker rm librestock
+    - script:
+        name: remove image behind stopped container
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker rmi davegri/librestock:current
+    - script:
+        name: tag newly pulled image
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker tag davegri/librestock:latest davegri/librestock:current
+    - script:
+        name: run new container
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker run -d -p 8080:8080 --name librestock davegri/librestock:current

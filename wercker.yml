@@ -49,7 +49,4 @@ deploy:
         code: ssh root@$LIBRESTOCK_SERVER_IP docker tag davegri/librestock:latest davegri/librestock:current
     - script:
         name: run new container
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker run --link mongoDB:mongodb -d -p 4567:8080 --name librestock davegri/librestock:current
-    - script:
-        name: restart nginx
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker restart nginx
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker run --link mongoDB:mongodb -d -p 8080:8080 --name librestock davegri/librestock:current

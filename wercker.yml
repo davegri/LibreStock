@@ -26,7 +26,6 @@ deploy:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
         repository: davegri/librestock
-        ports: "5000"
         cmd: /bin/bash -c "cd /pipeline/source && supervisor --watch ./src src/server.js"
 
     - add-ssh-key:
@@ -50,7 +49,7 @@ deploy:
         code: ssh root@$LIBRESTOCK_SERVER_IP docker tag davegri/librestock:latest davegri/librestock:current
     - script:
         name: run new container
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker run --link mongoDB:mongodb -d -p 5000:8080 --name librestock davegri/librestock:current
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker run --link mongoDB:mongodb -d -p 4567:8080 --name librestock davegri/librestock:current
     - script:
         name: restart nginx
-        code: ssh root@$LIBRESTOCK_SERVER_IP docker restart nginx || docker run -d --name nginx -p 8080:80 --link librestock:nodejs davegri/librestock-nginx
+        code: ssh root@$LIBRESTOCK_SERVER_IP docker restart nginx

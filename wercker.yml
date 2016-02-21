@@ -16,7 +16,6 @@ build:
         code: export NODE_ENV='testing'
     # A step that executes `npm install` command
     - npm-install
-
 deploy:
   steps:
     - npm-install

@@ -27,6 +27,7 @@ deploy:
         password: $DOCKER_PASSWORD
         repository: davegri/librestock
         ports: "8080"
+        cmd: /bin/bash -c "cd /pipeline/source && npm start"
 
     - add-ssh-key:
         keyname: DIGITAL_OCEAN

@@ -16,11 +16,7 @@ build:
         code: export NODE_ENV='testing'
     # A step that executes `npm install` command
     - npm-install
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
-    - script:
-        name: ls
-        code: npm install -g supervisor && npm start
+
 deploy:
   steps:
     - npm-install

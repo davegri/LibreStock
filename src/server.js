@@ -21,6 +21,7 @@ router.get('/', function(req, res) {
     res.send('home page!');
 });
 
+app.use(router);
 app.use('/api', APIRouter);
 
 app.listen(port);

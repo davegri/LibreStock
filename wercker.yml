@@ -25,8 +25,9 @@ deploy:
     - internal/docker-push:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
+        working-dir: /pipeline/source
         repository: davegri/librestock
-        cmd: /bin/bash -c "cd /pipeline/source && supervisor --watch ./src src/server.js"
+        cmd: supervisor --watch ./src src/server.js
 
     - add-ssh-key:
         keyname: DIGITAL_OCEAN

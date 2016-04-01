@@ -14,7 +14,9 @@ build:
   steps:
     - script:
         code: export NODE_ENV='testing'
-    # A step that executes `npm install` command
+    - script:
+      name: generate artefact
+      code: echo "artefact" > $WERCKER_REPORT_ARTIFACTS_DIR/artefact.txt
     - npm-install
 deploy:
   steps:

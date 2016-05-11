@@ -24,13 +24,6 @@ deploy:
     - script:
       name: install supervisor
       code: npm install -g supervisor
-    - internal/docker-push:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
-        working-dir: /pipeline/source
-        repository: davegri/librestock
-        cmd: supervisor --watch ./src src/server.js
-
     - add-ssh-key:
         keyname: DIGITAL_OCEAN
     - add-to-known_hosts:

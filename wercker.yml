@@ -16,7 +16,7 @@ build:
         code: export NODE_ENV='testing'
     - script:
       name: generate artefact
-      code: echo "somethin" > $WERCKER_REPORT_ARTIFACTS_DIR/artefact.txt
+      code: echo "somethingelse" > $WERCKER_REPORT_ARTIFACTS_DIR/artefact.txt
     - npm-install
 deploy:
   steps:

@@ -15,11 +15,7 @@ lib-cov
 coverage
 
 # wercker stuff
-_builds
-_cache
-_projects
-_steps
-_temp
+.wercker
 
 # node-waf configuration
 .lock-wscript
